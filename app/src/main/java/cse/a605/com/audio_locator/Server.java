@@ -1,9 +1,5 @@
 package cse.a605.com.audio_locator;
 
-/**
- * Created by premh on 26-Oct-17.
- */
-
 import android.util.Log;
 import org.json.JSONObject;
 import java.io.BufferedReader;
