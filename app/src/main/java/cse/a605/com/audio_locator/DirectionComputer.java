@@ -1,4 +1,4 @@
-package cse605.com.audiosamplerserver;
+package cse.a605.com.audio_locator;
 
 import android.content.Context;
 import android.util.Log;
