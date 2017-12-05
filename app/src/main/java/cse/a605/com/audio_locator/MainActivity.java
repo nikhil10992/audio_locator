@@ -13,6 +13,7 @@ import com.a605.cse.audio_locator.R;
 public class MainActivity extends AppCompatActivity {
     public TextView textViewIp,textViewMsg;
     Server server;
+    static String[] ids = {"602dfa77bf37d4e6","bd54565b67801eed","d39b47ad3df0a08e","240495edef394ee1"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
