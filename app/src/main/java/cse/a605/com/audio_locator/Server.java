@@ -24,7 +24,7 @@ public class Server {
     ServerSocket serverSocket;
     String message;
     static final int socketServerPORT = 8080;
-    String[] ids = {"602dfa77bf37d4e6","bd54565b67801eed","d39b47ad3df0a08e","240495edef394ee1"};
+    static String[] ids = {"ce1a11bb6459491f","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
     List<String> idsArr = Arrays.asList(ids);
     public Server(MainActivity mainActivity){
         this.mainActivity = mainActivity;

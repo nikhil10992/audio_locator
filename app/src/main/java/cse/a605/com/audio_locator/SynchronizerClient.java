@@ -17,7 +17,7 @@ import java.util.Map;
 public class SynchronizerClient {
     private HashMap<String, String> idToIP = new HashMap<>();
     int messageCounter = 0;
-    private final String PORT = "8080";
+    private final String PORT = "5000";
     Activity mainActivity;
 
     SynchronizerClient(Activity mainActivity)
@@ -28,10 +28,10 @@ public class SynchronizerClient {
     }
 
     public void setIdToIP() {
-        idToIP.put(MainActivity.ids[0], "abc");
-        idToIP.put(MainActivity.ids[1], "abc");
-        idToIP.put(MainActivity.ids[2], "abc");
-        idToIP.put(MainActivity.ids[3], "abc");
+        idToIP.put(MainActivity.ids[0], "192.168.1.181");
+        idToIP.put(MainActivity.ids[1], "192.168.1.186");
+        idToIP.put(MainActivity.ids[2], "192.168.1.188");
+        idToIP.put(MainActivity.ids[3], "192.168.1.187");
 
     }
 
