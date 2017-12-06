@@ -33,6 +33,7 @@ public class Communicator extends Thread {
             clientSocket = new Socket(receiverIP, PORT);
 
             printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+            syncDataObject.senderTimestamp = String.valueOf(System.currentTimeMillis());
             printWriter.println("1");
 
             bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

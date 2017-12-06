@@ -10,9 +10,7 @@ public class SyncDataObject {
     String receiverTimestamp;
     String senderReceivedTimestamp;
 
-    SyncDataObject(String messageId, String senderTimestamp)
-    {
+    SyncDataObject(String messageId) {
         this.messageId = messageId;
-        this.senderTimestamp = senderTimestamp;
     }
 }

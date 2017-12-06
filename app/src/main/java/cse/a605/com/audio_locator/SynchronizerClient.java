@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class SynchronizerClient {
     private HashMap<String, String> idToIP = new HashMap<>();
-    int messageCounter = 0;
     MainActivity mainActivity;
 
     SynchronizerClient(MainActivity mainActivity)
@@ -36,22 +35,14 @@ public class SynchronizerClient {
 
     public void sendMessage()
     {
-        /*Iterator it = idToIP.entrySet().iterator();
-        while(it.hasNext())
+        for(Map.Entry<String, String> iterator : idToIP.entrySet())
         {
-            Map.Entry
-        }*/
+            String receiverIP = iterator.getValue();
 
-        for(Map.Entry<String, String> it : idToIP.entrySet())
-        {
-            SyncDataObject messageObj = new SyncDataObject(it.getKey(),String.valueOf(System.currentTimeMillis()));
-            String receiverIP = it.getValue(); //"http://" + it.getValue() + ":" + PORT;
+            SyncDataObject messageObj = new SyncDataObject(iterator.getKey());
 
             Communicator communicator = new Communicator(mainActivity, messageObj, receiverIP);
             communicator.start();
-//            communicator.sendSyncData(messageObj);
-
-            //Log.d("Updated Message Obj", messageObj.toString());
         }
     }
 }
