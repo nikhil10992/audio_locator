@@ -17,7 +17,7 @@ import java.util.Queue;
 
 public class DirectionComputer {
     private static final float SPEED_OF_SOUND = 330.0F;
-    private static final float DISTANCE_BETWEEN_RECIEVERS = 0.4F;
+    private static final float DISTANCE_BETWEEN_RECIEVERS = 1F;
     public static ArrayList<Queue<AudioDataObject>> priorityQueueArrayList;
     private Context context;
     private int numberOfListeningDevice;
@@ -123,16 +123,13 @@ public class DirectionComputer {
     public Float findAngleOfArrival(AudioDataObject audioDataObject1, AudioDataObject audioDataObject2){
         double t1 = Double.parseDouble(audioDataObject1.getTimestamp());
         double t2 = Double.parseDouble(audioDataObject2.getTimestamp());
-        Log.d("Offset size",MainActivity.offsets.size()+"");
-        Log.d("OFFSETS",MainActivity.offsets.toString());
-        Log.d("A1",audioDataObject1.toString());
-        Log.d("A2",audioDataObject2.toString());
         double offset1 = MainActivity.offsets.get(audioDataObject1.getDeviceId());
         double offset2 = MainActivity.offsets.get(audioDataObject2.getDeviceId());
         t1 = t1 + offset1;
         t2 = t2 + offset2;
         //Math.abs?
         Log.d("TimeStamp Difference = ",(t1-t2)+"");
+        Log.d("Sequence Number = ",""+audioDataObject1.getSequenceNumber());
         double diff = Math.abs(t1-t2);
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
         Log.d("Calculations Degrees = ",cal+"");
