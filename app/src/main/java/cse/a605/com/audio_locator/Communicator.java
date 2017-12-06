@@ -20,8 +20,10 @@ import java.util.Map;
 
 public class Communicator {
     private RequestQueue volleyRequestQueue;
-    private String receiverURL;
     private String ERROR = "";
+    private String receiverURL = "";
+    private String receiverResponse = "";
+
     public Communicator(Activity clientActivity, String receiverURL)
     {
         volleyRequestQueue = Volley.newRequestQueue(clientActivity);
@@ -29,12 +31,13 @@ public class Communicator {
     }
 
     public boolean sendSyncData(SyncDataObject obj){
-            StringRequest sendDataRequest = new StringRequest(Request.Method.GET, receiverURL,
+            StringRequest sendDataRequest = new StringRequest(Request.Method.GET, this.receiverURL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             // response
                             Log.d("Reponse received", response);
+                            receiverResponse = response;
                             ERROR = "";
                         }
                     },
@@ -48,8 +51,11 @@ public class Communicator {
                     }
             ) {
             };
-            sendDataRequest.setRetryPolicy(new DefaultRetryPolicy(0,0,0));
             volleyRequestQueue.add(sendDataRequest);
+
+            obj.receiverTimestamp = this.receiverResponse;
+            obj.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
+            Log.d("return volley", obj.receiverTimestamp);
             return ERROR.equals("");
     }
 }

@@ -51,7 +51,7 @@ public class SynchronizerClient {
             Communicator communicator = new Communicator(mainActivity, receiverURL);
             communicator.sendSyncData(messageObj);
 
-            Log.d("UNIQUE", messageObj.toString());
+            Log.d("Updated Message Obj", messageObj.toString());
 
             it.getKey();
             it.getValue();

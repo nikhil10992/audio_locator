@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="cse.a605.com.audio_locator.MainActivity">
+    <Button
+        android:id="@+id/startSyncButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Sync" />
 
     <TextView
         android:id="@+id/text_view_ip"
@@ -12,8 +18,8 @@
         android:layout_height="wrap_content"
         android:text="Ip Address"/>
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

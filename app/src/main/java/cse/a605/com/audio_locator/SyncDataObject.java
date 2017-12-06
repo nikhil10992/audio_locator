@@ -8,6 +8,7 @@ public class SyncDataObject {
     int messageId;
     String senderTimestamp;
     String receiverTimestamp;
+    String senderReceivedTimestamp;
 
     SyncDataObject(int messageId, String senderTimestamp)
     {
