@@ -43,8 +43,8 @@ public class Communicator extends Thread {
 
             SyncDataCompute computation = new SyncDataCompute(syncDataObject);
             long offset = computation.computeOffset();
-            Log.d("Offset", String.valueOf(offset));
-            _mainActivity.offsets.put(syncDataObject.messageId, offset);
+            Log.d("Offset", String.valueOf(offset)+" ID = "+syncDataObject.messageId);
+            MainActivity.offsets.put(syncDataObject.messageId, offset);
 
         } catch (UnknownHostException e) {
             Log.e(LOG_TAG, "ClientTask Send UnknownHostException.");

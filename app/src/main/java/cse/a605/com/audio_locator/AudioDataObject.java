@@ -15,10 +15,11 @@ class AudioDataObject {
     private String deviceId;
     private int id;
 
-    public AudioDataObject(String _timestamp, int _sequenceNumber, int _id) {
+    public AudioDataObject(String _deviceId, String _timestamp, int _sequenceNumber, int _id) {
         this.id = _id;
         this.timestamp = _timestamp;
         this.sequenceNumber = _sequenceNumber;
+        this.deviceId = _deviceId;
     }
 
     public AudioDataObject(String _amplitude, String _frequency, String _intensity, String _deviceId) {

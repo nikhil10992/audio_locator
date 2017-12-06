@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 import java.net.URLDecoder;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -63,29 +65,17 @@ public class Server {
                 serverSocket = new ServerSocket(socketServerPORT);
 
                 while(true){
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(serverSocket.accept().getInputStream()));
-                    String headerLine = null;
-                    while((headerLine = br.readLine()).length() != 0){
-                        Log.d("Header",headerLine);
-                    }
-                    final StringBuilder payload = new StringBuilder();
-                    while(br.ready()){
-                        char c = (char) br.read();
-                        payload.append(c);
-                    }
-
-                    String urlDecodedMessage = URLDecoder.decode(payload.toString(),"UTF-8");
-                    urlDecodedMessage = urlDecodedMessage.replace("data=","");
-                    urlDecodedMessage = urlDecodedMessage.replace("&","");
-                    JSONObject jsonObject = new JSONObject(urlDecodedMessage);
+                    Socket socket = serverSocket.accept();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    String payload = bufferedReader.readLine();
+                    JSONObject jsonObject = new JSONObject(payload);
                     Log.d("OUTPUT",jsonObject.toString());
                     logDump.add(jsonObject.toString());
                     //Map ids
                     int index = idsArr.indexOf(jsonObject.getString("deviceId"));
                     Log.d("Index Id",index+"");
                     jsonObject.put("id",index + 1 + "");
-                    AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("timestamp"),
+                    AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"),jsonObject.getString("timestamp"),
                             Integer.parseInt(jsonObject.getString("sequenceNumber")),
                             Integer.parseInt(jsonObject.getString("id")));
                     //Check if necessary inputs are recieved, fire the compute thread if so
@@ -93,11 +83,12 @@ public class Server {
                     if(directionComputer.checkQueueForSameSequenceNumber()){
                         directionComputer.calculateDirection();
                     }
-                    if(directionComputer.getMinimumCountInQueues() > 15){
+                  /*  if(directionComputer.getMinimumCountInQueues() > 15){
                         directionComputer.dequeueFromQueue();
                         if(directionComputer.checkQueueForSameSequenceNumber())
-                            directionComputer.calculateDirection();
+                            directionComputer.calculateDirection(mainActivity.offsets);
                     }
+                  */
                     count++;
                     message += "\n DeviceId = "+ audioDataObject.getId() +" SequenceNumber " + audioDataObject.getSequenceNumber() + " Timestamp = " + audioDataObject.getTimestamp();
                     mainActivity.runOnUiThread(new Runnable() {
@@ -112,7 +103,6 @@ public class Server {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            Log.d("logDump",logDump.toString());
         }
 
     }
