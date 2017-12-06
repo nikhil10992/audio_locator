@@ -1,71 +1,73 @@
 package cse.a605.com.audio_locator;
 
-import android.app.Activity;
 import android.util.Log;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by shahsid104 on 12/3/2017.
- */
-
-public class Communicator {
-    private RequestQueue volleyRequestQueue;
-    private String ERROR = "";
-    private String receiverURL = "";
-    private String receiverResponse = "";
+public class Communicator extends Thread {
+    private String LOG_TAG = "Communicator";
+    private String receiverIP = "";
     private MainActivity _mainActivity;
+    private final int PORT = 5000;
+    private SyncDataObject syncDataObject;
 
-    public Communicator(MainActivity clientActivity, String receiverURL)
-    {
+    public Communicator(MainActivity clientActivity, SyncDataObject syncDataObject, String receiverIP) {
         this._mainActivity = clientActivity;
-        volleyRequestQueue = Volley.newRequestQueue(clientActivity);
-        this.receiverURL = receiverURL;
+        this.syncDataObject = syncDataObject;
+        this.receiverIP = receiverIP;
     }
 
-    public boolean sendSyncData(SyncDataObject obj){
-            StringRequest sendDataRequest = new StringRequest(Request.Method.GET, this.receiverURL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // response
-                            Log.d("Reponse received", response);
-                            receiverResponse = response;
-                            ERROR = "";
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // error
-                            receiverResponse = error.toString();
-                            receiverResponse = receiverResponse.replace("com.android.volley.NoConnectionError: java.net.ProtocolException: Unexpected status line: ","");
-                            Log.d("Parsed Response", receiverResponse+ "URL = "+receiverURL);
-                        }
-                    }
-            ) {
+    @Override
+    public void run() {
+        Socket clientSocket = null;
+        PrintWriter printWriter = null;
+        BufferedReader bufferedReader = null;
 
-            };
-            sendDataRequest.setRetryPolicy(new DefaultRetryPolicy(0,0,0));
-            volleyRequestQueue.add(sendDataRequest);
+        try {
+            // Create socket for the destination port.
+            clientSocket = new Socket(receiverIP, PORT);
 
-            obj.receiverTimestamp = this.receiverResponse;
-            obj.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
+            printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+            printWriter.println("1");
 
-            SyncDataCompute computation = new SyncDataCompute(obj);
-            long offset = computation.computeOffset();
-            _mainActivity.offsets.put(obj.messageId, offset);
+            bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String timeStamp = bufferedReader.readLine();
+            Log.d(LOG_TAG, " TIME RECEIVED: " + timeStamp);
 
-            Log.d("return volley", obj.receiverTimestamp);
-            return ERROR.equals("");
+        } catch (UnknownHostException e) {
+            Log.e(LOG_TAG, "ClientTask Send UnknownHostException.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "ClientTask Send IOException");
+            e.printStackTrace();
+        } finally {
+            cleanUp(printWriter, bufferedReader, clientSocket);
+        }
+    }
+
+    public void cleanUp(PrintWriter writer, BufferedReader reader, Socket socket){
+        // Close output stream
+        if (writer != null) {
+            writer.close();
+        } // Close input stream.
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                Log.i(LOG_TAG, "CleanUp of ObjectInputStream");
+            }
+        } // Close socket
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                Log.i(LOG_TAG, "CleanUp of Socket");
+            }
+        }
     }
 }
