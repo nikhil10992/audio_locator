@@ -23,9 +23,11 @@ public class Communicator {
     private String ERROR = "";
     private String receiverURL = "";
     private String receiverResponse = "";
+    private MainActivity _mainActivity;
 
-    public Communicator(Activity clientActivity, String receiverURL)
+    public Communicator(MainActivity clientActivity, String receiverURL)
     {
+        this._mainActivity = clientActivity;
         volleyRequestQueue = Volley.newRequestQueue(clientActivity);
         this.receiverURL = receiverURL;
     }
@@ -55,8 +57,14 @@ public class Communicator {
             };
             sendDataRequest.setRetryPolicy(new DefaultRetryPolicy(0,0,0));
             volleyRequestQueue.add(sendDataRequest);
+
             obj.receiverTimestamp = this.receiverResponse;
             obj.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
+
+            SyncDataCompute computation = new SyncDataCompute(obj);
+            long offset = computation.computeOffset();
+            _mainActivity.offsets.put(obj.messageId, offset);
+
             Log.d("return volley", obj.receiverTimestamp);
             return ERROR.equals("");
     }

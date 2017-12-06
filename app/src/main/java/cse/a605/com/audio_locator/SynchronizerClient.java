@@ -18,9 +18,9 @@ public class SynchronizerClient {
     private HashMap<String, String> idToIP = new HashMap<>();
     int messageCounter = 0;
     private final String PORT = "5000";
-    Activity mainActivity;
+    MainActivity mainActivity;
 
-    SynchronizerClient(Activity mainActivity)
+    SynchronizerClient(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
         setIdToIP();
@@ -45,16 +45,13 @@ public class SynchronizerClient {
 
         for(Map.Entry<String, String> it : idToIP.entrySet())
         {
-            SyncDataObject messageObj = new SyncDataObject(messageCounter++,String.valueOf(System.currentTimeMillis()));
+            SyncDataObject messageObj = new SyncDataObject(it.getKey(),String.valueOf(System.currentTimeMillis()));
             String receiverURL = "http://" + it.getValue() + ":" + PORT;
 
             Communicator communicator = new Communicator(mainActivity, receiverURL);
             communicator.sendSyncData(messageObj);
 
             Log.d("Updated Message Obj", messageObj.toString());
-
-            it.getKey();
-            it.getValue();
         }
     }
 }

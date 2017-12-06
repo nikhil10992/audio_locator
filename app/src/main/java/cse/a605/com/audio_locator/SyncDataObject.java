@@ -5,12 +5,12 @@ package cse.a605.com.audio_locator;
  */
 
 public class SyncDataObject {
-    int messageId;
+    String messageId;
     String senderTimestamp;
     String receiverTimestamp;
     String senderReceivedTimestamp;
 
-    SyncDataObject(int messageId, String senderTimestamp)
+    SyncDataObject(String messageId, String senderTimestamp)
     {
         this.messageId = messageId;
         this.senderTimestamp = senderTimestamp;
