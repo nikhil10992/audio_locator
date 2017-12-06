@@ -51,7 +51,7 @@ public class SynchronizerClient {
             communicator.start();
 //            communicator.sendSyncData(messageObj);
 
-            Log.d("Updated Message Obj", messageObj.toString());
+            //Log.d("Updated Message Obj", messageObj.toString());
         }
     }
 }

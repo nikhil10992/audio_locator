@@ -38,6 +38,13 @@ public class Communicator extends Thread {
             bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String timeStamp = bufferedReader.readLine();
             Log.d(LOG_TAG, " TIME RECEIVED: " + timeStamp);
+            syncDataObject.receiverTimestamp = timeStamp;
+            syncDataObject.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
+
+            SyncDataCompute computation = new SyncDataCompute(syncDataObject);
+            long offset = computation.computeOffset();
+            Log.d("Offset", String.valueOf(offset));
+            _mainActivity.offsets.put(syncDataObject.messageId, offset);
 
         } catch (UnknownHostException e) {
             Log.e(LOG_TAG, "ClientTask Send UnknownHostException.");
