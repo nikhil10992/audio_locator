@@ -45,14 +45,16 @@ public class Communicator {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // error
-                            ERROR = error.toString();
-                            Log.d("Error.Response", error.toString());
+                            receiverResponse = error.toString();
+                            receiverResponse = receiverResponse.replace("com.android.volley.NoConnectionError: java.net.ProtocolException: Unexpected status line: ","");
+                            Log.d("Parsed Response", receiverResponse+ "URL = "+receiverURL);
                         }
                     }
             ) {
-            };
-            volleyRequestQueue.add(sendDataRequest);
 
+            };
+            sendDataRequest.setRetryPolicy(new DefaultRetryPolicy(0,0,0));
+            volleyRequestQueue.add(sendDataRequest);
             obj.receiverTimestamp = this.receiverResponse;
             obj.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
             Log.d("return volley", obj.receiverTimestamp);

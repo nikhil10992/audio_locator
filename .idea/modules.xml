@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\premh\Documents\GitHub\audio_locator\app\app.iml" filepath="C:\Users\premh\Documents\GitHub\audio_locator\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/audio_locator.iml" filepath="$PROJECT_DIR$/audio_locator.iml" />
+      <module fileurl="file://C:\Users\premh\Documents\GitHub\audio_locator\audio_locator.iml" filepath="C:\Users\premh\Documents\GitHub\audio_locator\audio_locator.iml" />
     </modules>
   </component>
 </project>
