@@ -22,7 +22,7 @@ public class SyncDataCompute {
     {
         this.travelTime = (Long.parseLong(computeObj.senderReceivedTimestamp) - Long.parseLong(computeObj.senderTimestamp)) / 2;
         this.expectedTimestamp = Long.parseLong(computeObj.senderTimestamp) + travelTime;
-        this.offset = Math.abs(this.expectedTimestamp - Long.parseLong(computeObj.receiverTimestamp));
+        this.offset = this.expectedTimestamp - Long.parseLong(computeObj.receiverTimestamp);
 
         Log.d(tag, "Travel time : " + String.valueOf(travelTime));
         Log.d(tag, "Expected Timestamp time : " + String.valueOf(expectedTimestamp));

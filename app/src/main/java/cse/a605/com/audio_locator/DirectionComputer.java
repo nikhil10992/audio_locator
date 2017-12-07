@@ -114,6 +114,7 @@ public class DirectionComputer {
             AudioDataObject a2 = priorityQueueArrayList.get(i+1).poll();
             thetaAngles.add(findAngleOfArrival(a1,a2));
         }
+        if(thetaAngles.get(0) == -1.0 || thetaAngles.get(1) == -1.0) return;        //Ignore false data
         finalCordinates[0] = ( X_CORDINATE * ( Math.tan(thetaAngles.get(0)) + 1 ) ) / ( Math.tan(thetaAngles.get(0)) - Math.tan(thetaAngles.get(1)) );
         finalCordinates[0] = ( Y_CORDINATE * Math.tan(thetaAngles.get(0)) * (1 + Math.tan(thetaAngles.get(1))) ) / ( Math.tan(thetaAngles.get(0)) - Math.tan(thetaAngles.get(1)) );
         Log.d("XCoordinates", finalCordinates[0] + "");
@@ -127,6 +128,7 @@ public class DirectionComputer {
         double offset2 = MainActivity.offsets.get(audioDataObject2.getDeviceId());
         t1 = t1 + offset1;
         t2 = t2 + offset2;
+        if(Math.abs(t1-t2) > 3) return -1.0F;       //return if greater than threshold
         //Math.abs?
         Log.d("TimeStamp Difference = ",(t1-t2)+"");
         Log.d("Sequence Number = ",""+audioDataObject1.getSequenceNumber());

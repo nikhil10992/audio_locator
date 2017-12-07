@@ -11,8 +11,6 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.URLDecoder;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -69,7 +67,9 @@ public class Server {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     String payload = bufferedReader.readLine();
                     JSONObject jsonObject = new JSONObject(payload);
-                    Log.d("OUTPUT",jsonObject.toString());
+//                    Log.d("SHITSTORM", jsonObject.getString("sequenceNumber") + "|" + jsonObject.getString("deviceId") + "|" +
+//                            jsonObject.getString("timestamp"));
+//                    Log.d("OUTPUT",jsonObject.toString());
                     logDump.add(jsonObject.toString());
                     //Map ids
                     int index = idsArr.indexOf(jsonObject.getString("deviceId"));
@@ -90,13 +90,13 @@ public class Server {
                     }
                   */
                     count++;
-                    message += "\n DeviceId = "+ audioDataObject.getId() +" SequenceNumber " + audioDataObject.getSequenceNumber() + " Timestamp = " + audioDataObject.getTimestamp();
-                    mainActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mainActivity.textViewMsg.setText(message);
-                        }
-                    });
+//                    message += "\n DeviceId = "+ audioDataObject.getId() +" SequenceNumber " + audioDataObject.getSequenceNumber() + " Timestamp = " + audioDataObject.getTimestamp();
+//                    mainActivity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mainActivity.textViewMsg.setText(message);
+//                        }
+//                    });
                     if(count == 100)
                         break;
                 }
