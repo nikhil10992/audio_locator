@@ -20,6 +20,8 @@ public class Server {
     ServerSocket serverSocket;
     static final int socketServerPORT = 8080;
     static String[] ids = {"bd54565b67801eed","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
+    static Integer runningMaxSequence = -1;
+    static Integer synchronizedMaxSequence = -1;
     List<String> idsArr = Arrays.asList(ids);
     public Server(MainActivity mainActivity){
         this.mainActivity = mainActivity;
@@ -41,7 +43,6 @@ public class Server {
 
     private class SocketServerThread extends Thread{
         int count = 0;
-
         @Override
         public void run() {
             try{
@@ -61,6 +62,12 @@ public class Server {
                     AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"),jsonObject.getString("timestamp"),
                             Integer.parseInt(jsonObject.getString("sequenceNumber")),
                             Integer.parseInt(jsonObject.getString("id")));
+                    runningMaxSequence = Math.max(audioDataObject.getSequenceNumber(),runningMaxSequence);
+                    if(audioDataObject.getSequenceNumber() < synchronizedMaxSequence) continue;
+                    /*if(audioDataObject.getSequenceNumber() > maxSequenceNumber  )
+                        maxSequenceNumber = audioDataObject.getSequenceNumber();
+                    */
+
                     //Check if necessary inputs are recieved, fire the compute thread if so
                     directionComputer.addToQueue(audioDataObject);
                     if(directionComputer.checkQueueForSameSequenceNumber()){
@@ -80,8 +87,6 @@ public class Server {
 //                            mainActivity.textViewMsg.setText(message);
 //                        }
 //                    });
-                    if(count == 100)
-                        break;
                 }
             }catch (Exception e){
                 e.printStackTrace();

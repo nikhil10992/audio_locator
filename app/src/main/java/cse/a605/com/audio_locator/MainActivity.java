@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 client = new SynchronizerClient(MainActivity.this);
+                Server.synchronizedMaxSequence = Server.runningMaxSequence;
             }
         });
         //Init the class
