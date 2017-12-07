@@ -1,13 +1,6 @@
 package cse.a605.com.audio_locator;
 
-import android.app.Activity;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
