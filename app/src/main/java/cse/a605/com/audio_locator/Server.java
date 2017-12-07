@@ -19,7 +19,7 @@ public class Server {
     private DirectionComputer directionComputer;
     ServerSocket serverSocket;
     static final int socketServerPORT = 8080;
-    static String[] ids = {"bd54565b67801eed","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
+    static String[] ids = {"ce1a11bv6459491f","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
     static Integer runningMaxSequence = -1;
     static Integer synchronizedMaxSequence = -1;
     List<String> idsArr = Arrays.asList(ids);
