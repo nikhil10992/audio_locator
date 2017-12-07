@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewIp = (TextView) findViewById(R.id.text_view_ip);
-        textViewMsg = (TextView)findViewById(R.id.text_view_msg);
-        startSyncButton = (Button) findViewById(R.id.startSyncButton);
+        textViewIp = findViewById(R.id.text_view_ip);
+        textViewMsg = findViewById(R.id.text_view_msg);
+        startSyncButton = findViewById(R.id.startSyncButton);
 
         startSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
