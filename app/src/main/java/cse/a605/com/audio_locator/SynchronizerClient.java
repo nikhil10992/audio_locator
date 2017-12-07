@@ -30,7 +30,6 @@ public class SynchronizerClient {
         idToIP.put(MainActivity.ids[1], "192.168.1.186");
         idToIP.put(MainActivity.ids[2], "192.168.1.188");
         idToIP.put(MainActivity.ids[3], "192.168.1.187");
-
     }
 
     public void sendMessage()

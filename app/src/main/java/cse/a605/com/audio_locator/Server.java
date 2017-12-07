@@ -18,11 +18,9 @@ import java.util.List;
 
 
 public class Server {
-    ArrayList<String> logDump = new ArrayList<>();
     MainActivity mainActivity;
     private DirectionComputer directionComputer;
     ServerSocket serverSocket;
-    String message;
     static final int socketServerPORT = 8080;
     static String[] ids = {"ce1a11bb6459491f","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
     List<String> idsArr = Arrays.asList(ids);
@@ -36,10 +34,6 @@ public class Server {
         //if(directionComputer.checkQueueForSameSequenceNumber()){
          //   directionComputer.calculateDirection();
         // }
-    }
-
-    public int getPort(){
-        return socketServerPORT;
     }
 
     public void onDestroy(){
@@ -69,11 +63,9 @@ public class Server {
                     JSONObject jsonObject = new JSONObject(payload);
 //                    Log.d("SHITSTORM", jsonObject.getString("sequenceNumber") + "|" + jsonObject.getString("deviceId") + "|" +
 //                            jsonObject.getString("timestamp"));
-//                    Log.d("OUTPUT",jsonObject.toString());
-                    logDump.add(jsonObject.toString());
+
                     //Map ids
                     int index = idsArr.indexOf(jsonObject.getString("deviceId"));
-                    Log.d("Index Id",index+"");
                     jsonObject.put("id",index + 1 + "");
                     AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"),jsonObject.getString("timestamp"),
                             Integer.parseInt(jsonObject.getString("sequenceNumber")),

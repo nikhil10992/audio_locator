@@ -34,12 +34,6 @@ public class DirectionComputer {
         }
     }
 
-    public void initDummyData(){
-        addToQueue(new AudioDataObject("1","1510107523680",1,1));
-        addToQueue(new AudioDataObject("1","1510107523640",1,2));
-        addToQueue(new AudioDataObject("1","1510107525450",1,3));
-        addToQueue(new AudioDataObject("1","1510107525425",1,4));
-    }
     public void addToQueue(AudioDataObject audioDataObject){
         int id = audioDataObject.getId();
         Queue<AudioDataObject> queue = priorityQueueArrayList.get(id-1);
@@ -58,34 +52,35 @@ public class DirectionComputer {
         return true;
     }
 
-    public int getMinimumCountInQueues(){
-        int min_count = Integer.MAX_VALUE;
-        for(Queue<AudioDataObject> queue : priorityQueueArrayList){
-            if(queue.size() < min_count){
-                min_count = queue.size();
-            }
-        }
-        return min_count;
-    }
+//    public int getMinimumCountInQueues(){
+//        int min_count = Integer.MAX_VALUE;
+//        for(Queue<AudioDataObject> queue : priorityQueueArrayList){
+//            if(queue.size() < min_count){
+//                min_count = queue.size();
+//            }
+//        }
+//        return min_count;
+//    }
+//
+//    public void dequeueFromQueue(){
+//        int[] seqNumbers = new int[numberOfListeningDevice];
+//        for(int i=0;i<numberOfListeningDevice;i++){
+//            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
+//            seqNumbers[i] = queue.peek().getSequenceNumber();
+//        }
+//        int[] maxSeqWithQueueId = findMaxSequenceNumber(seqNumbers);
+//        int maxSequenceNumber = maxSeqWithQueueId[0];
+//        int indexOfQueueWithMax = maxSeqWithQueueId[1];
+//        for(int i=0;i<numberOfListeningDevice;i++){
+//            if(i==indexOfQueueWithMax) continue;
+//            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
+//            int sequenceNumber = queue.peek().getSequenceNumber();
+//            while(sequenceNumber <= maxSequenceNumber && queue.peek()!=null){
+//                queue.poll();
+//            }
+//        }
+//    }
 
-    public void dequeueFromQueue(){
-        int[] seqNumbers = new int[numberOfListeningDevice];
-        for(int i=0;i<numberOfListeningDevice;i++){
-            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
-            seqNumbers[i] = queue.peek().getSequenceNumber();
-        }
-        int[] maxSeqWithQueueId = findMaxSequenceNumber(seqNumbers);
-        int maxSequenceNumber = maxSeqWithQueueId[0];
-        int indexOfQueueWithMax = maxSeqWithQueueId[1];
-        for(int i=0;i<numberOfListeningDevice;i++){
-            if(i==indexOfQueueWithMax) continue;
-            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
-            int sequenceNumber = queue.peek().getSequenceNumber();
-            while(sequenceNumber <= maxSequenceNumber && queue.peek()!=null){
-                queue.poll();
-            }
-        }
-    }
     private int[] findMaxSequenceNumber(int[] sequenceNumbers){
         int[] result = new int[2];
         int maxSequenceNumber = Integer.MIN_VALUE;
@@ -128,15 +123,13 @@ public class DirectionComputer {
         double offset2 = MainActivity.offsets.get(audioDataObject2.getDeviceId());
         t1 = t1 + offset1;
         t2 = t2 + offset2;
-        if(Math.abs(t1-t2) > 3) return -1.0F;       //return if greater than threshold
-        //Math.abs?
-        Log.d("TimeStamp Difference = ",(t1-t2)+"");
-        Log.d("Sequence Number = ",""+audioDataObject1.getSequenceNumber());
         double diff = Math.abs(t1-t2);
+        if(diff > 3) return -1.0F;       //return if greater than threshold
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
-        Log.d("Calculations Degrees = ",cal+"");
         double angle = Math.toDegrees(Math.acos(cal));
-        Log.d("Calculations Angles = ",angle+" And Device = "+ audioDataObject1.getId() + " and "+ audioDataObject2.getId());
+        Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
+                audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + (t1-t2)
+                + " :Angle: " + angle);
         return (float)angle;
     }
 }
