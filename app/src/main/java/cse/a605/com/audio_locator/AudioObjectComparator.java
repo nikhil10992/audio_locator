@@ -2,10 +2,6 @@ package cse.a605.com.audio_locator;
 
 import java.util.Comparator;
 
-/**
- * Created by premh on 08-Nov-17.
- */
-
 class AudioObjectComparator implements Comparator<AudioDataObject> {
 
     @Override

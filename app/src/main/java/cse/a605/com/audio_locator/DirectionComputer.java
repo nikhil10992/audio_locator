@@ -2,18 +2,10 @@ package cse.a605.com.audio_locator;
 
 import android.content.Context;
 import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-/**
- * Created by premh on 08-Nov-17.
- */
 
 public class DirectionComputer {
     private static final float SPEED_OF_SOUND = 330.0F;
@@ -51,35 +43,6 @@ public class DirectionComputer {
         }
         return true;
     }
-
-//    public int getMinimumCountInQueues(){
-//        int min_count = Integer.MAX_VALUE;
-//        for(Queue<AudioDataObject> queue : priorityQueueArrayList){
-//            if(queue.size() < min_count){
-//                min_count = queue.size();
-//            }
-//        }
-//        return min_count;
-//    }
-//
-//    public void dequeueFromQueue(){
-//        int[] seqNumbers = new int[numberOfListeningDevice];
-//        for(int i=0;i<numberOfListeningDevice;i++){
-//            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
-//            seqNumbers[i] = queue.peek().getSequenceNumber();
-//        }
-//        int[] maxSeqWithQueueId = findMaxSequenceNumber(seqNumbers);
-//        int maxSequenceNumber = maxSeqWithQueueId[0];
-//        int indexOfQueueWithMax = maxSeqWithQueueId[1];
-//        for(int i=0;i<numberOfListeningDevice;i++){
-//            if(i==indexOfQueueWithMax) continue;
-//            Queue<AudioDataObject> queue = priorityQueueArrayList.get(i);
-//            int sequenceNumber = queue.peek().getSequenceNumber();
-//            while(sequenceNumber <= maxSequenceNumber && queue.peek()!=null){
-//                queue.poll();
-//            }
-//        }
-//    }
 
     private int[] findMaxSequenceNumber(int[] sequenceNumbers){
         int[] result = new int[2];
@@ -124,7 +87,11 @@ public class DirectionComputer {
         t1 = t1 + offset1;
         t2 = t2 + offset2;
         double diff = Math.abs(t1-t2);
-        if(diff > 3) return -1.0F;       //return if greater than threshold
+        if(diff > 3){
+            Log.d("SHIT"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
+                    audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + (t1-t2));
+            return -1.0F;       //return if greater than threshold
+        }
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
         double angle = Math.toDegrees(Math.acos(cal));
         Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +

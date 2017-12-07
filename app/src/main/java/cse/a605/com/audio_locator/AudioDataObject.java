@@ -1,12 +1,6 @@
 package cse.a605.com.audio_locator;
-/**
- * Created by might on 10/23/17.
- * Updated
- */
 
 class AudioDataObject {
-    private static int counter;
-
     private String timestamp;
     private String amplitude;
     private String frequency;

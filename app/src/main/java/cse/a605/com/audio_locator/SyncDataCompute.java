@@ -2,10 +2,6 @@ package cse.a605.com.audio_locator;
 
 import android.util.Log;
 
-/**
- * Created by shahsid104 on 12/5/2017.
- */
-
 public class SyncDataCompute {
     private SyncDataObject computeObj;
     private long travelTime;

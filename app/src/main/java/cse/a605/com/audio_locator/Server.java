@@ -1,9 +1,7 @@
 package cse.a605.com.audio_locator;
 
-import android.util.Log;
 import org.json.JSONObject;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
@@ -11,7 +9,6 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
@@ -29,11 +26,6 @@ public class Server {
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
         directionComputer = new DirectionComputer(mainActivity,4);
-        //For testing
-       // directionComputer.initDummyData();
-        //if(directionComputer.checkQueueForSameSequenceNumber()){
-         //   directionComputer.calculateDirection();
-        // }
     }
 
     public void onDestroy(){
@@ -52,7 +44,6 @@ public class Server {
 
         @Override
         public void run() {
-            DataInputStream dataInputStream = null;
             try{
                 serverSocket = new ServerSocket(socketServerPORT);
 

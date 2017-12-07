@@ -3,10 +3,6 @@ package cse.a605.com.audio_locator;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by shahsid104 on 12/3/2017.
- */
-
 public class SynchronizerClient {
     private HashMap<String, String> idToIP = new HashMap<>();
     MainActivity mainActivity;
