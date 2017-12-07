@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<String, Long> offsets = new HashMap<>();
     Server server;
     SynchronizerClient client;
-    static String[] ids = {"ce1a11bv6459491f","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
+    static String[] ids = {"ce1a11bb6459491f","7d2195c0675bcd9f","bed43046e2258412","5756a1757d60c6ca"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
