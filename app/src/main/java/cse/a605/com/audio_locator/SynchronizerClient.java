@@ -1,17 +1,21 @@
 package cse.a605.com.audio_locator;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SynchronizerClient {
     private HashMap<String, String> idToIP = new HashMap<>();
     MainActivity mainActivity;
+    Timer t = new Timer();
 
     SynchronizerClient(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
         setIdToIP();
-        sendMessage();
     }
 
     public void setIdToIP() {
@@ -22,6 +26,19 @@ public class SynchronizerClient {
     }
 
     public void sendMessage()
+    {
+        t.scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.d("Christians", "Performing Synchronization");
+                        synchronize();
+                    }
+                },
+        0, 5000);
+    }
+
+    private void synchronize()
     {
         for(Map.Entry<String, String> iterator : idToIP.entrySet())
         {
