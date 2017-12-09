@@ -80,13 +80,13 @@ public class DirectionComputer {
     }
 
     public Float findAngleOfArrival(AudioDataObject audioDataObject1, AudioDataObject audioDataObject2){
-        double t1 = Double.parseDouble(audioDataObject1.getTimestamp());
-        double t2 = Double.parseDouble(audioDataObject2.getTimestamp());
-        double offset1 = MainActivity.offsets.get(audioDataObject1.getDeviceId());
-        double offset2 = MainActivity.offsets.get(audioDataObject2.getDeviceId());
-        t1 = t1 + offset1;
-        t2 = t2 + offset2;
-        double diff = Math.abs(t1-t2);
+        long t1 = Long.parseLong(audioDataObject1.getTimestamp());
+        long t2 = Long.parseLong(audioDataObject2.getTimestamp());
+        long offset1 = MainActivity.offsets.get(audioDataObject1.getDeviceId());
+        long offset2 = MainActivity.offsets.get(audioDataObject2.getDeviceId());
+        long modT1 = t1 + offset1;
+        long modT2 = t2 + offset2;
+        long diff = Math.abs(modT1-modT2);
         if(diff > 3){
             Log.d("SHIT"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
                     audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + (t1-t2));
@@ -95,7 +95,7 @@ public class DirectionComputer {
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
         double angle = Math.toDegrees(Math.acos(cal));
         Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
-                audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + (t1-t2)
+                audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + diff
                 + " :Angle: " + angle);
         return (float)angle;
     }
