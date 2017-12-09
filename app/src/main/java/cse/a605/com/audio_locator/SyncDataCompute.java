@@ -20,9 +20,13 @@ public class SyncDataCompute {
         this.expectedTimestamp = Long.parseLong(computeObj.senderTimestamp) + travelTime;
         this.offset = this.expectedTimestamp - Long.parseLong(computeObj.receiverTimestamp);
 
-        Log.d(tag, "Travel time : " + String.valueOf(travelTime));
-        Log.d(tag, "Expected Timestamp time : " + String.valueOf(expectedTimestamp));
-        Log.d(tag, "Final Offset : " + String.valueOf(offset));
+//        Log.d(tag, "Travel time : " + String.valueOf(travelTime));
+//        Log.d(tag, "Expected Timestamp time : " + String.valueOf(expectedTimestamp));
+//        Log.d(tag, "Final Offset : " + String.valueOf(offset));
+
+        Log.d("SYNCDATA",  " :ID: " + computeObj.messageId + " :TrT: " + travelTime +
+                " :ET: " + expectedTimestamp + " :OFF: " + offset
+                + " :RT: " + computeObj.receiverTimestamp);
 
         return this.offset;
 

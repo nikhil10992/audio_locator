@@ -38,7 +38,6 @@ public class Communicator extends Thread {
 
             bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String timeStamp = bufferedReader.readLine();
-            Log.d(LOG_TAG, " TIME RECEIVED: " + timeStamp);
             syncDataObject.receiverTimestamp = timeStamp;
             syncDataObject.senderReceivedTimestamp = String.valueOf(System.currentTimeMillis());
 
