@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     public Button startSyncButton;
     public static HashMap<String, Long> offsets = new HashMap<>();
     Server server;
-    SynchronizerClient client;
+//    SynchronizerClient client;
+    SoundSynchronizerClient client;
     static String[] ids = {"5756a1757d60c6ca","7d2195c0675bcd9f","bed43046e2258412","ce1a11bb6459491f"};
 
     @Override
@@ -29,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
         startSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                client = new SynchronizerClient(MainActivity.this);
-                client.sendMessage();
+//                client = new SynchronizerClient(MainActivity.this);
+//                client.sendMessage();
+                client = new SoundSynchronizerClient();
+                client.send_chirp();
+
                 Server.synchronizedMaxSequence = Server.runningMaxSequence;
             }
         });
