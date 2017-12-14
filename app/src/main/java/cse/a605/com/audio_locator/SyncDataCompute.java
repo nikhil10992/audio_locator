@@ -7,6 +7,8 @@ public class SyncDataCompute {
     private long travelTime;
     private long expectedTimestamp;
     private long offset;
+    private MainActivity mainActivity;
+    private AudioDataObject obj;
     private final String tag = "SyncDataCompute";
 
     public SyncDataCompute(SyncDataObject obj)
@@ -14,21 +16,27 @@ public class SyncDataCompute {
         this.computeObj = obj;
     }
 
-    public long computeOffset()
+    public SyncDataCompute(MainActivity mainActivity, AudioDataObject obj){
+        this.mainActivity = mainActivity;
+        this.obj = obj;
+    }
+
+    public void findOffset()
     {
-        this.travelTime = (Long.parseLong(computeObj.senderReceivedTimestamp) - Long.parseLong(computeObj.senderTimestamp)) / 2;
-        this.expectedTimestamp = Long.parseLong(computeObj.senderTimestamp) + travelTime;
-        this.offset = this.expectedTimestamp - Long.parseLong(computeObj.receiverTimestamp);
+        String deviceId = obj.getDeviceId();
+        mainActivity.offsets.put(deviceId, computeSoundOffset());
 
-//        Log.d(tag, "Travel time : " + String.valueOf(travelTime));
-//        Log.d(tag, "Expected Timestamp time : " + String.valueOf(expectedTimestamp));
-//        Log.d(tag, "Final Offset : " + String.valueOf(offset));
+    }
 
-        Log.d("SYNCDATA",  " :ID: " + computeObj.messageId + " :TrT: " + travelTime +
+    public long computeSoundOffset()
+    {
+        this.expectedTimestamp = this.mainActivity.syncTimestampSound + (1/330);
+        this.offset = this.expectedTimestamp - Long.parseLong(obj.getTimestamp());
+
+        Log.d("SYNCDATA",  " :ID: " + computeObj.deviceID + " :TrT: " + travelTime +
                 " :ET: " + expectedTimestamp + " :OFF: " + offset
-                + " :RT: " + computeObj.receiverTimestamp);
+                + " :RT: " + computeObj.timestamp);
 
         return this.offset;
-
     }
 }

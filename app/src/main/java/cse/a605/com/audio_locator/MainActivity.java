@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView textViewIp,textViewMsg;
     public Button startSyncButton;
     public static HashMap<String, Long> offsets = new HashMap<>();
+    public static long syncTimestampSound;
     Server server;
 //    SynchronizerClient client;
     SoundSynchronizerClient client;

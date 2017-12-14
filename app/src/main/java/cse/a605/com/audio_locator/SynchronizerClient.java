@@ -15,39 +15,10 @@ public class SynchronizerClient {
     SynchronizerClient(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
-        setIdToIP();
     }
 
-    public void setIdToIP() {
-        idToIP.put(MainActivity.ids[0], "192.168.1.187");
-        idToIP.put(MainActivity.ids[1], "192.168.1.186");
-        idToIP.put(MainActivity.ids[2], "192.168.1.188");
-        idToIP.put(MainActivity.ids[3], "192.168.1.181");
-    }
-
-    public void sendMessage()
+    public void generateSound()
     {
-        t.scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        Log.d("Christians", "Performing Synchronization");
-                        synchronize();
-                    }
-                },
-        0, 15000);
-    }
 
-    private void synchronize()
-    {
-        for(Map.Entry<String, String> iterator : idToIP.entrySet())
-        {
-            String receiverIP = iterator.getValue();
-
-            SyncDataObject messageObj = new SyncDataObject(iterator.getKey());
-
-            Communicator communicator = new Communicator(mainActivity, messageObj, receiverIP);
-            communicator.start();
-        }
     }
 }
