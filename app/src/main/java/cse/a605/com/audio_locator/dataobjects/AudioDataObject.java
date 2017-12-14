@@ -1,6 +1,6 @@
 package cse.a605.com.audio_locator.dataobjects;
 
-class AudioDataObject {
+public class AudioDataObject {
     private String timestamp;
     private String amplitude;
     private String frequency;

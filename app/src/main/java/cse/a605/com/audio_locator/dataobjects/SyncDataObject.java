@@ -1,9 +1,9 @@
 package cse.a605.com.audio_locator.dataobjects;
 
 public class SyncDataObject {
-    String deviceID;
-    String timestamp;
-    String type = "Christian";
+    public String deviceID;
+    public String timestamp;
+    public String type = "Christian";
 
     SyncDataObject(String messageId, String timestamp)
     {
