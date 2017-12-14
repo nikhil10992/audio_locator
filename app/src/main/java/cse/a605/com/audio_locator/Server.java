@@ -65,31 +65,31 @@ public class Server {
                         long offset = computingOffset.computeSoundOffset();
                         computingOffset.addOffset(offset, SyncObj.deviceID);
                     }
-
-                    //Map ids
-                    int index = idsArr.indexOf(jsonObject.getString("deviceId"));
-                    jsonObject.put("id",index + 1 + "");
-                    AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"),jsonObject.getString("timestamp"),
-                            Integer.parseInt(jsonObject.getString("sequenceNumber")),
-                            Integer.parseInt(jsonObject.getString("id")));
-                    runningMaxSequence = Math.max(audioDataObject.getSequenceNumber(),runningMaxSequence);
-                    if(audioDataObject.getSequenceNumber() < synchronizedMaxSequence) continue;
+                    else {
+                        //Map ids
+                        int index = idsArr.indexOf(jsonObject.getString("deviceId"));
+                        jsonObject.put("id", index + 1 + "");
+                        AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"), jsonObject.getString("timestamp"),
+                                Integer.parseInt(jsonObject.getString("sequenceNumber")),
+                                Integer.parseInt(jsonObject.getString("id")));
+                        runningMaxSequence = Math.max(audioDataObject.getSequenceNumber(), runningMaxSequence);
+                        if (audioDataObject.getSequenceNumber() < synchronizedMaxSequence) continue;
                     /*if(audioDataObject.getSequenceNumber() > maxSequenceNumber  )
                         maxSequenceNumber = audioDataObject.getSequenceNumber();
                     */
 
-                    //Check if necessary inputs are recieved, fire the compute thread if so
-                    directionComputer.addToQueue(audioDataObject);
-                    if(directionComputer.checkQueueForSameSequenceNumber()){
-                        directionComputer.calculateDirection();
-                    }
+                        //Check if necessary inputs are recieved, fire the compute thread if so
+                        directionComputer.addToQueue(audioDataObject);
+                        if (directionComputer.checkQueueForSameSequenceNumber()) {
+                            directionComputer.calculateDirection();
+                        }
                   /*  if(directionComputer.getMinimumCountInQueues() > 15){
                         directionComputer.dequeueFromQueue();
                         if(directionComputer.checkQueueForSameSequenceNumber())
                             directionComputer.calculateDirection(mainActivity.offsets);
                     }
                   */
-                    count++;
+                        count++;
 //                    message += "\n DeviceId = "+ audioDataObject.getId() +" SequenceNumber " + audioDataObject.getSequenceNumber() + " Timestamp = " + audioDataObject.getTimestamp();
 //                    mainActivity.runOnUiThread(new Runnable() {
 //                        @Override
@@ -97,6 +97,7 @@ public class Server {
 //                            mainActivity.textViewMsg.setText(message);
 //                        }
 //                    });
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();
