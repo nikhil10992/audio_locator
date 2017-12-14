@@ -10,46 +10,64 @@ import cse.a605.com.audio_locator.dataobjects.AudioDataObject;
 
 
 public class DirectionComputer {
+
     private static final float SPEED_OF_SOUND = 330.0F;
     private static final float DISTANCE_BETWEEN_RECIEVERS = 1F;
     public static ArrayList<Queue<AudioDataObject>> priorityQueueArrayList;
-    private Context context;
+    private MainActivity context;
     private int numberOfListeningDevice;
-    public DirectionComputer(Context _context, int _numberOfListeningDevice){
+
+    public DirectionComputer(MainActivity _context, int _numberOfListeningDevice){
+
         this.context = _context;
         this.numberOfListeningDevice = _numberOfListeningDevice;
         priorityQueueArrayList = new ArrayList<>();
         init();
+
     }
+
     private void init(){
-        for(int i = 0;i < numberOfListeningDevice; i++){
+
+        for(int i = 0; i < numberOfListeningDevice; i++){
             Queue<AudioDataObject> queue = new PriorityQueue<>(100,new AudioObjectComparator());
             priorityQueueArrayList.add(queue);
         }
+
     }
 
     public void addToQueue(AudioDataObject audioDataObject){
-        int id = audioDataObject.getId();
-        Queue<AudioDataObject> queue = priorityQueueArrayList.get(id - 1);
+
+        int id = context.idToIndex.get(audioDataObject.getDeviceId());
+        Queue<AudioDataObject> queue = priorityQueueArrayList.get(id);
         queue.add(audioDataObject);
+
     }
 
     public boolean checkQueueForSameSequenceNumber(){
+
         int prev_seq = -1;          //Init
+
         for(Queue<AudioDataObject> queue : priorityQueueArrayList){
+
             if(queue.peek() == null) return false;
+
             if(prev_seq == -1)
                 prev_seq = queue.peek().getSequenceNumber();            //First sequenceNumber
+
             else if(queue.peek().getSequenceNumber() != prev_seq)
                 return false;           //SequenceNumber not same in any of the priority Queue
+
         }
+
         return true;
     }
 
     private int[] findMaxSequenceNumber(int[] sequenceNumbers){
+
         int[] result = new int[2];
         int maxSequenceNumber = Integer.MIN_VALUE;
         int index = -1;
+
         for(int i = 0;i<sequenceNumbers.length;i++)
         {
             int seq = sequenceNumbers[i];
@@ -58,27 +76,24 @@ public class DirectionComputer {
                 index  = i;
             }
         }
+
         result[0] = maxSequenceNumber;
         result[1] = index;
+
         return result;
     }
 
     public void calculateDirection(){
-        final int X_CORDINATE = 5;
-        final int Y_CORDINATE = 5;
+
         ArrayList<Float> thetaAngles = new ArrayList<>();
-        double finalCordinates[] = new double[2];
+
         for(int i = 0; i < numberOfListeningDevice; i = i + 2)
         {
             AudioDataObject a1 = priorityQueueArrayList.get(i).poll();
             AudioDataObject a2 = priorityQueueArrayList.get(i+1).poll();
             thetaAngles.add(findAngleOfArrival(a1,a2));
         }
-        if(thetaAngles.get(0) == -1.0 || thetaAngles.get(1) == -1.0) return;        //Ignore false data
-        finalCordinates[0] = ( X_CORDINATE * ( Math.tan(thetaAngles.get(0)) + 1 ) ) / ( Math.tan(thetaAngles.get(0)) - Math.tan(thetaAngles.get(1)) );
-        finalCordinates[0] = ( Y_CORDINATE * Math.tan(thetaAngles.get(0)) * (1 + Math.tan(thetaAngles.get(1))) ) / ( Math.tan(thetaAngles.get(0)) - Math.tan(thetaAngles.get(1)) );
-        Log.d("XCoordinates", finalCordinates[0] + "");
-        Log.d("YCoordinates", finalCordinates[1] + "");
+
     }
 
     public Float findAngleOfArrival(AudioDataObject audioDataObject1, AudioDataObject audioDataObject2){
@@ -93,15 +108,16 @@ public class DirectionComputer {
 
         if(diff > 3){
             Log.d("SHIT"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
-                    audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + (t1-t2));
+                    audioDataObject1.getDeviceId() + " and " + audioDataObject2.getDeviceId() + " :TD: " + (t1-t2));
             return -1.0F;       //return if greater than threshold
         }
 
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
         double angle = Math.toDegrees(Math.acos(cal));
         Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
-                audioDataObject1.getId() + " and " + audioDataObject2.getId() + " :TD: " + diff
+                audioDataObject1.getDeviceId() + " and " + audioDataObject2.getDeviceId() + " :TD: " + diff
                 + " :Angle: " + angle);
+
         return (float)angle;
 
     }

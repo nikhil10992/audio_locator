@@ -27,16 +27,21 @@ public class Server {
     static Integer runningMaxSequence = -1;
     static Integer synchronizedMaxSequence = -1;
     List<String> idsArr;
+
     public Server(MainActivity mainActivity){
+
         this.mainActivity = mainActivity;
         this.idsArr = Arrays.asList(mainActivity.ids);
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
         directionComputer = new DirectionComputer(mainActivity,2);
+
     }
 
     public void onDestroy(){
+
         if (serverSocket != null) {
+
             try {
                 serverSocket.close();
             } catch (IOException e) {
@@ -47,17 +52,22 @@ public class Server {
     }
 
     private class SocketServerThread extends Thread{
+
         int count = 0;
         @Override
         public void run() {
+
             try{
+
                 serverSocket = new ServerSocket(socketServerPORT);
 
                 while(true){
+
                     Socket socket = serverSocket.accept();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     String payload = bufferedReader.readLine();
                     JSONObject jsonObject = new JSONObject(payload);
+
                     if(jsonObject.getString("type").equalsIgnoreCase("Christian"))
                     {
                         SyncDataObject SyncObj = new Gson().fromJson(payload, SyncDataObject.class);
@@ -65,14 +75,12 @@ public class Server {
                         long offset = computingOffset.computeSoundOffset();
                         computingOffset.addOffset(offset, SyncObj.deviceID);
                     }
+
                     else {
                         //Map ids
-                        int index = idsArr.indexOf(jsonObject.getString("deviceId"));
-                        jsonObject.put("id", index + 1 + "");
-                        AudioDataObject audioDataObject = new AudioDataObject(jsonObject.getString("deviceId"), jsonObject.getString("timestamp"),
-                                Integer.parseInt(jsonObject.getString("sequenceNumber")),
-                                Integer.parseInt(jsonObject.getString("id")));
+                        AudioDataObject audioDataObject = new Gson().fromJson(payload, AudioDataObject.class);
                         runningMaxSequence = Math.max(audioDataObject.getSequenceNumber(), runningMaxSequence);
+
                         if (audioDataObject.getSequenceNumber() < synchronizedMaxSequence) continue;
                     /*if(audioDataObject.getSequenceNumber() > maxSequenceNumber  )
                         maxSequenceNumber = audioDataObject.getSequenceNumber();
@@ -99,7 +107,9 @@ public class Server {
 //                    });
                     }
                 }
+
             }catch (Exception e){
+
                 e.printStackTrace();
             }
         }
@@ -108,16 +118,23 @@ public class Server {
 
 
     public String getIpAddress() {
+
         String ip = "";
+
         try {
+
             Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface
                     .getNetworkInterfaces();
+
             while (enumNetworkInterfaces.hasMoreElements()) {
+
                 NetworkInterface networkInterface = enumNetworkInterfaces
                         .nextElement();
                 Enumeration<InetAddress> enumInetAddress = networkInterface
                         .getInetAddresses();
+
                 while (enumInetAddress.hasMoreElements()) {
+
                     InetAddress inetAddress = enumInetAddress
                             .nextElement();
 
