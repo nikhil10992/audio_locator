@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
+import cse.a605.com.audio_locator.dataobjects.AudioDataObject;
+
 
 public class Server {
     MainActivity mainActivity;
@@ -53,6 +55,7 @@ public class Server {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     String payload = bufferedReader.readLine();
                     JSONObject jsonObject = new JSONObject(payload);
+
 //                    Log.d("SHITSTORM", jsonObject.getString("sequenceNumber") + "|" + jsonObject.getString("deviceId") + "|" +
 //                            jsonObject.getString("timestamp"));
 

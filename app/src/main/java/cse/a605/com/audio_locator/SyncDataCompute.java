@@ -2,6 +2,9 @@ package cse.a605.com.audio_locator;
 
 import android.util.Log;
 
+import cse.a605.com.audio_locator.dataobjects.AudioDataObject;
+import cse.a605.com.audio_locator.dataobjects.SyncDataObject;
+
 public class SyncDataCompute {
     private SyncDataObject computeObj;
     private long travelTime;

@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import cse.a605.com.audio_locator.dataobjects.SyncDataObject;
+
 public class Communicator extends Thread {
     private String LOG_TAG = "Communicator";
     private String receiverIP = "";

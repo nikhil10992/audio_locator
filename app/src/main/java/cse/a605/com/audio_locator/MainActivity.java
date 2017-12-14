@@ -31,11 +31,9 @@ public class MainActivity extends AppCompatActivity {
         startSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                client = new SynchronizerClient(MainActivity.this);
-//                client.sendMessage();
                 client = new SoundSynchronizerClient();
                 client.send_chirp();
-
+                syncTimestampSound = System.currentTimeMillis();
                 Server.synchronizedMaxSequence = Server.runningMaxSequence;
             }
         });

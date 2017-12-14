@@ -1,4 +1,4 @@
-package cse.a605.com.audio_locator;
+package cse.a605.com.audio_locator.dataobjects;
 
 public class SyncDataObject {
     String deviceID;

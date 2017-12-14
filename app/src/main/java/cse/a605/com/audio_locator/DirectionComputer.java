@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import cse.a605.com.audio_locator.dataobjects.AudioDataObject;
+
 
 public class DirectionComputer {
     private static final float SPEED_OF_SOUND = 330.0F;
