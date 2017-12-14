@@ -68,7 +68,7 @@ public class Server {
                     String payload = bufferedReader.readLine();
                     JSONObject jsonObject = new JSONObject(payload);
 
-                    if(jsonObject.getString("type").equalsIgnoreCase("Christian"))
+                    if(jsonObject.getString("TYPE").equalsIgnoreCase("Sync"))
                     {
                         SyncDataObject SyncObj = new Gson().fromJson(payload, SyncDataObject.class);
                         SyncDataCompute computingOffset = new SyncDataCompute(mainActivity, SyncObj);

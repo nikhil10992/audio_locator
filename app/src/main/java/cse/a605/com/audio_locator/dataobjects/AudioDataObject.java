@@ -4,6 +4,7 @@ public class AudioDataObject {
     private String timestamp;
     private int sequenceNumber;
     private String deviceId;
+    private String TYPE = "Audio";
 
     public AudioDataObject(String _deviceId, String _timestamp, int _sequenceNumber) {
         this.timestamp = _timestamp;
