@@ -1,5 +1,7 @@
 package cse.a605.com.audio_locator;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import cse.a605.com.audio_locator.dataobjects.AudioDataObject;
+import cse.a605.com.audio_locator.dataobjects.SyncDataObject;
 
 
 public class Server {
@@ -29,7 +32,7 @@ public class Server {
         this.idsArr = Arrays.asList(mainActivity.ids);
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
-        directionComputer = new DirectionComputer(mainActivity,4);
+        directionComputer = new DirectionComputer(mainActivity,2);
     }
 
     public void onDestroy(){
@@ -55,9 +58,13 @@ public class Server {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     String payload = bufferedReader.readLine();
                     JSONObject jsonObject = new JSONObject(payload);
-
-//                    Log.d("SHITSTORM", jsonObject.getString("sequenceNumber") + "|" + jsonObject.getString("deviceId") + "|" +
-//                            jsonObject.getString("timestamp"));
+                    if(jsonObject.getString("type").equalsIgnoreCase("Christian"))
+                    {
+                        SyncDataObject SyncObj = new Gson().fromJson(payload, SyncDataObject.class);
+                        SyncDataCompute computingOffset = new SyncDataCompute(mainActivity, SyncObj);
+                        long offset = computingOffset.computeSoundOffset();
+                        computingOffset.addOffset(offset, SyncObj.deviceID);
+                    }
 
                     //Map ids
                     int index = idsArr.indexOf(jsonObject.getString("deviceId"));

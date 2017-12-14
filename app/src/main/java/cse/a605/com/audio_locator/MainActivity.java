@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Server server;
 //    SynchronizerClient client;
     SoundSynchronizerClient client;
-    static String[] ids = {"5756a1757d60c6ca","7d2195c0675bcd9f","bed43046e2258412","ce1a11bb6459491f"};
+    static String[] ids = {"7d2195c0675bcd9f","bed43046e2258412"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

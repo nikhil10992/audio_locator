@@ -11,30 +11,23 @@ public class SyncDataCompute {
     private long expectedTimestamp;
     private long offset;
     private MainActivity mainActivity;
-    private AudioDataObject obj;
     private final String tag = "SyncDataCompute";
 
-    public SyncDataCompute(SyncDataObject obj)
+    public SyncDataCompute(MainActivity mainActivity, SyncDataObject obj)
     {
+        this.mainActivity = mainActivity;
         this.computeObj = obj;
     }
 
-    public SyncDataCompute(MainActivity mainActivity, AudioDataObject obj){
-        this.mainActivity = mainActivity;
-        this.obj = obj;
-    }
-
-    public void findOffset()
+    public void addOffset(long offset, String deviceId)
     {
-        String deviceId = obj.getDeviceId();
-        mainActivity.offsets.put(deviceId, computeSoundOffset());
-
+        this.mainActivity.offsets.put(deviceId, offset);
     }
 
     public long computeSoundOffset()
     {
-        this.expectedTimestamp = this.mainActivity.syncTimestampSound + (1/330);
-        this.offset = this.expectedTimestamp - Long.parseLong(obj.getTimestamp());
+        this.expectedTimestamp = this.mainActivity.syncTimestampSound + (2/330);
+        this.offset = this.expectedTimestamp - Long.parseLong(computeObj.timestamp);
 
         Log.d("SYNCDATA",  " :ID: " + computeObj.deviceID + " :TrT: " + travelTime +
                 " :ET: " + expectedTimestamp + " :OFF: " + offset
