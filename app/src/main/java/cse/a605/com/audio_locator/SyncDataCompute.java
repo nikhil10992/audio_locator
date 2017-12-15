@@ -26,7 +26,7 @@ public class SyncDataCompute {
 
     public long computeSoundOffset()
     {
-        this.expectedTimestamp = this.mainActivity.syncTimestampSound + (2/330);
+        this.expectedTimestamp = this.mainActivity.syncTimestampSound + (long)((1.5/330) * 1000);
         this.offset = this.expectedTimestamp - Long.parseLong(computeObj.timestamp);
 
         Log.d("SYNCDATA",  " :ID: " + computeObj.deviceID + " :TrT: " + travelTime +
