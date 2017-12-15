@@ -16,12 +16,13 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<String, Long> offsets = new HashMap<>();
     Server server;
     SynchronizerClient client;
-    static String[] ids = {"5756a1757d60c6ca","7d2195c0675bcd9f","bed43046e2258412","ce1a11bb6459491f"};
+    static String[] ids = {"5756a1757d60c6ca","7d2195c0675bcd9f","bed43046e2258412","7136a22cde3987e9"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         textViewIp = findViewById(R.id.text_view_ip);
         textViewMsg = findViewById(R.id.text_view_msg);
         startSyncButton = findViewById(R.id.startSyncButton);
