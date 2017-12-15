@@ -84,7 +84,6 @@ public class DirectionComputer {
     }
 
     public void calculateDirection(){
-
         ArrayList<Float> thetaAngles = new ArrayList<>();
 
         for(int i = 0; i < numberOfListeningDevice; i = i + 2)
@@ -106,17 +105,21 @@ public class DirectionComputer {
         long modT2 = t2 + offset2;
         long diff = Math.abs(modT1 - modT2);
 
+        Log.d("SHIT", audioDataObject1.getSequenceNumber() + "|" + audioDataObject1.getDeviceId() + "|" + modT1);
+        Log.d("SHIT", audioDataObject2.getSequenceNumber() + "|" + audioDataObject2.getDeviceId() + "|" + modT2);
+
         if(diff > 3){
-            Log.d("SHIT"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
-                    audioDataObject1.getDeviceId() + " and " + audioDataObject2.getDeviceId() + " :TD: " + (t1-t2));
+            /*Log.d("SHIT",audioDataObject1.getSequenceNumber() + "|" +
+                    audioDataObject1.getDeviceId() + " and " + audioDataObject2.getDeviceId() + " :TD: " + (t1-t2));*/
             return -1.0F;       //return if greater than threshold
         }
 
         double cal = (diff*SPEED_OF_SOUND/(DISTANCE_BETWEEN_RECIEVERS*1000));
         double angle = Math.toDegrees(Math.acos(cal));
-        Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
+        Log.d("Results", "Angle :" + angle);
+        /*Log.d("Results"," :SN: " + audioDataObject1.getSequenceNumber() + " Devices " +
                 audioDataObject1.getDeviceId() + " and " + audioDataObject2.getDeviceId() + " :TD: " + diff
-                + " :Angle: " + angle);
+                + " :Angle: " + angle);*/
 
         return (float)angle;
 

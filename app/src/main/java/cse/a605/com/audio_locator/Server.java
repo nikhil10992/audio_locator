@@ -1,5 +1,7 @@
 package cse.a605.com.audio_locator;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
